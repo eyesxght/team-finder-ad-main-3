@@ -21,14 +21,15 @@ def register_view(request):
 
 
 def login_view(request):
-    """Страница входа."""
     if request.method == 'POST':
-        form = EmailAuthenticationForm(request, data=request.POST)
+        form = EmailAuthenticationForm(request.POST)
         if form.is_valid():
-            login(request, form.get_user())
+            user = form.get_user()
+            login(request, user)
             return redirect('projects:list')
     else:
-        form = EmailAuthenticationForm(request)
+        form = EmailAuthenticationForm()
+    
     return render(request, 'users/login.html', {'form': form})
 
 
